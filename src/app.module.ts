@@ -2,13 +2,14 @@ import { Module } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
+
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configService } from './Core/configService';
+import { IndexingModule } from './indexing/indexing.module';
 
 dotenv.config();
 @Module({
-  imports: [AuthModule,
+  imports: [IndexingModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
   host: process.env.DB_HOST,
@@ -24,6 +25,7 @@ dotenv.config();
   synchronize: true,
   verboseRetryLog: true,
     }),
+    IndexingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
